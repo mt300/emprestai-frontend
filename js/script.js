@@ -237,8 +237,9 @@ $(window).on("load", function() {
     $("html").on("click", function(){
         $(".forum-links").removeClass("active");
     });
-    $(".forum-links-btn > a, .forum-links").on("click", function(){
-        e.stopPropagation();
+    $(".forum-links-btn > a, .forum-links").on("click", function(e){
+        // e.stopPropagation();
+        // console.log(e)
     });
 
     //  ============= PORTFOLIO SLIDER FUNCTION =========

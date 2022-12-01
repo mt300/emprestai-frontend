@@ -52,10 +52,9 @@ const Data = [
 if( localStorage.getItem("data") == undefined){
     localStorage.setItem("data", JSON.stringify(Data));
     localStorage.setItem("id-counter", Data.length)
-}
-if( localStorage.getItem("data-offer") == undefined){
     localStorage.setItem("data-offer", JSON.stringify(Data.filter(e=>{return (e.id%2 == 0)})));
 }
+
 
  // delete data
 function deletePost(id){
@@ -105,8 +104,51 @@ function fetchData(){
         // console.log(deleteBtn)
         
         postsSection.appendChild(newPost)
-});
+    });
+}
 
+sessionStorage.getItem("data-offer");
+function fetchRequests(){
+    var database = JSON.parse(sessionStorage.getItem("data-offer"));
+    console.log("oi gente ");
+    console.log(database)
+    var post = document.getElementById("post-request");
+    // var deleteBtn = document.getElementById("delete-post");
+    var postsSection = document.getElementById("requests-section");
+    postsSection.removeChild(post);
+    // console.log(database)
+    database.sort(function(a,b){ return (b.id - a.id)})
+    database.forEach( data => {
+        var newPost = document.createElement("div");
+        
+        // copying and creating new posts with data stored
+        newPost.innerHTML = post.innerHTML;
+        newPost.classList.add("usr-question");
+
+        var user = newPost.querySelector("#user-request") 
+        user.childNodes[0].data = data.user;
+
+        var obj = newPost.querySelector("#obj-request")
+        obj.childNodes[1].data = data.obj
+
+        var deadLine = newPost.querySelector("#dead-line-request")
+        deadLine.childNodes[1].data = data.deadLine;
+
+
+        var voltage = newPost.querySelector("#voltage-request")
+        voltage.childNodes[1].data = data.voltage;
+
+        var desc = newPost.querySelector("#desc-request")
+        desc.childNodes[1].data = data.desc;
+
+        // newPost.querySelector("#delete-post-").addEventListener("click",() => deletePost(data.id));
+        
+        // console.log(deleteBtn)
+        
+        postsSection.appendChild(newPost)
+    });
+
+    
 }
 // comment
 const newPostOffer = function(){
@@ -126,8 +168,11 @@ const newPostOffer = function(){
         deadLine: deadLine1+deadLine2,
         desc: desc
     }
+
     var data = JSON.parse(localStorage.getItem("data"));
     data.push(post);
+    // console.log(window.location.href); 
+    // window.location.replace("http://www.w3schools")
     localStorage.setItem("data",JSON.stringify(data));
     // console.log(data);
 }
@@ -138,15 +183,29 @@ const newDemand = function () {
     var deadLine2 = document.getElementById("dead-line-2-input-demand").value;
     var desc = document.getElementById("desc-input-demand").value;
     var voltage = document.getElementById("voltage-input-demand").value;
+    var user = document.getElementById("user-name-logged").textContent;
+    var id = Number(localStorage.getItem("id-counter")) + 1;
+    localStorage.setItem("id-counter",id);
     var post = {
-        user: "Nome Do Usuário", 
+        id: id,
+        user: user, 
         obj: obj,
         voltage: voltage,
         deadLine: deadLine1+deadLine2,
         desc: desc
     }
     var data = JSON.parse(localStorage.getItem("data-offer"));
+    // console.log(data);
     data.push(post);
-    localStorage.setItem("data-offer",JSON.stringify(data));
-    console.log(data);
+    // console.log(data);
+    var url = window.location.href;
+    // var index = url.findIndex("index.html");
+    var requestUrl = url.split("index.html")[0];
+    url = requestUrl+"request.html";
+    console.log(url);
+    // console.log(index)
+    sessionStorage.setItem("data-offer",JSON.stringify(data));
+    // window.location.reload(url);
+    // localStorage.setItem("data-offer",JSON.stringify(data));
+    
 }
