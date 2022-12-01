@@ -52,7 +52,9 @@ const Data = [
 if( localStorage.getItem("data") == undefined){
     localStorage.setItem("data", JSON.stringify(Data));
 }
-
+if( localStorage.getItem("data-offer") == undefined){
+    localStorage.setItem("data-offer", JSON.stringify(Data.filter(e=>{return (e.id%2 == 0)})));
+}
 
  // delete data
 function deletePost(id){
@@ -105,7 +107,7 @@ function fetchData(){
 
 }
 
-const newPost = function(){
+const newPostOffer = function(){
     var obj = document.getElementById("obj-input").value;
     var deadLine1 = document.getElementById("dead-line-1-input").value;
     var deadLine2 = document.getElementById("dead-line-2-input").value;
@@ -121,5 +123,24 @@ const newPost = function(){
     var data = JSON.parse(localStorage.getItem("data"));
     data.push(post);
     localStorage.setItem("data",JSON.stringify(data));
+    console.log(data);
+}
+
+const newOffer = function () {
+    var obj = document.getElementById("obj-input-demand").value;
+    var deadLine1 = document.getElementById("dead-line-1-input-demand").value;
+    var deadLine2 = document.getElementById("dead-line-2-input-demand").value;
+    var desc = document.getElementById("desc-input-demand").value;
+    var voltage = document.getElementById("voltage-input-demand").value;
+    var post = {
+        user: "Nome Do Usuário", 
+        obj: obj,
+        voltage: voltage,
+        deadLine: deadLine1+deadLine2,
+        desc: desc
+    }
+    var data = JSON.parse(localStorage.getItem("data-offer"));
+    data.push(post);
+    localStorage.setItem("data-offer",JSON.stringify(data));
     console.log(data);
 }

@@ -171,7 +171,7 @@
 			<div class="post-project">
 				<h3>Cadastrar Oferta</h3>
 				<div class="post-project-fields">
-					<form id="formPost" method="POST">
+					<form>
 						<div class="row">
 							<div class="col-lg-12">
 								<input type="text" id="obj-input" name="title" placeholder="Ex: Fuadeira">
@@ -205,7 +205,7 @@
 							</div>
 							<div class="col-lg-12">
 								<ul>
-									<li><button class="active" type="submit" onclick="newPost()" value="post">Postar</button></li>
+									<li><button class="active" type="submit" onclick="newPostOffer()" value="post">Postar</button></li>
 									<li><button onclick="self.close()">Cancelar</button></li>
 								</ul>
 							</div>
@@ -223,38 +223,38 @@
 					<form>
 						<div class="row">
 							<div class="col-lg-12">
-								<input type="text" name="title" placeholder="Ex: Furadeira">
+								<input name="obj-input-demand" id="obj-input-demand" type="text" name="title" placeholder="Ex: Furadeira">
 							</div>
 							<div class="col-lg-12">
 								<div class="inp-field">
-									<select >
-										<option>Voltagem</option>
-										<option>Não se aplica</option>
-										<option>110V</option>
-										<option>220V</option>
+									<select id="voltage-input-demand">
+										<option selected value="null" >Voltagem</option>
+										<option value="Não se aplica" >Não se aplica</option>
+										<option value="110V">110V</option>
+										<option value="220V">220V</option>
 									</select>
 								</div>
 							</div>
 							<div class="col-lg-6">
 								<div class="disp-br">
-									<input type="text" name="perm" placeholder="Permanência (Quantidade)">
+									<input type="text" id="dead-line-1-input-demand" name="perm" placeholder="Permanência (Quantidade)">
 								</div>
 							</div>
 							<div class="col-lg-6">
 								<div class="inp-field">
-									<select>
-										<option>Permanência</option>
-										<option>Horas</option>
-										<option>Dias</option>
+									<select id="dead-line-2-input-demand">
+										<option selected value="null">Permanência</option>
+										<option value="Horas">Horas</option>
+										<option value="Dias">Dias</option>
 									</select>
 								</div>
 							</div>
 							<div class="col-lg-12">
-								<textarea name="description" placeholder="Descrição adicional do objeto de interesse."></textarea>
+								<textarea id="desc-input-demand" name="description" placeholder="Descrição adicional do objeto de interesse."></textarea>
 							</div>
 							<div class="col-lg-12">
 								<ul>
-									<li><button class="active" type="submit" value="post">Postar</button></li>
+									<li><button class="active" type="submit" onclick="newOffer()" value="post">Postar</button></li>
 									<li><button onclick="self.close()">Cancelar</button></li>
 								</ul>
 							</div>
