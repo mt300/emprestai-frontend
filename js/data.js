@@ -108,7 +108,7 @@ function fetchData(){
 });
 
 }
-
+// comment
 const newPostOffer = function(){
     var obj = document.getElementById("obj-input").value;
     var deadLine1 = document.getElementById("dead-line-1-input").value;
