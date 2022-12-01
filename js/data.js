@@ -51,6 +51,7 @@ const Data = [
 
 if( localStorage.getItem("data") == undefined){
     localStorage.setItem("data", JSON.stringify(Data));
+    localStorage.setItem("id-counter", Data.length)
 }
 if( localStorage.getItem("data-offer") == undefined){
     localStorage.setItem("data-offer", JSON.stringify(Data.filter(e=>{return (e.id%2 == 0)})));
@@ -75,6 +76,7 @@ function fetchData(){
     var postsSection = document.getElementById("posts-section");
     postsSection.removeChild(post);
     // console.log(database)
+    database.sort(function(a,b){ return (b.id - a.id)})
     database.forEach( data => {
         var newPost = document.createElement("div");
         
@@ -113,8 +115,12 @@ const newPostOffer = function(){
     var deadLine2 = document.getElementById("dead-line-2-input").value;
     var desc = document.getElementById("desc-input").value;
     var voltage = document.getElementById("voltage-input").value;
+    var id = Number(localStorage.getItem("id-counter")) + 1;
+    localStorage.setItem("id-counter",id);
+    var user = document.getElementById("user-name-logged").textContent;
     var post = {
-        user: "Nome Do Usuário", 
+        id: id,
+        user: user, 
         obj: obj,
         voltage: voltage,
         deadLine: deadLine1+deadLine2,
@@ -123,10 +129,10 @@ const newPostOffer = function(){
     var data = JSON.parse(localStorage.getItem("data"));
     data.push(post);
     localStorage.setItem("data",JSON.stringify(data));
-    console.log(data);
+    // console.log(data);
 }
 
-const newOffer = function () {
+const newDemand = function () {
     var obj = document.getElementById("obj-input-demand").value;
     var deadLine1 = document.getElementById("dead-line-1-input-demand").value;
     var deadLine2 = document.getElementById("dead-line-2-input-demand").value;
