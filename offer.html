@@ -18,7 +18,7 @@
 	<link rel="stylesheet" type="text/css" href="css/style.css">
 	<link rel="stylesheet" type="text/css" href="css/responsive.css">
 </head>
-<body>
+<body onload="fetchOffers()">
 	<div class="wrapper">
 		<header>
 			<div class="container">
@@ -62,18 +62,18 @@
 				<div class="forum-questions-sec">
 					<div class="row">
 						<div class="col-lg-12">
-							<div class="forum-questions">
-								<div class="usr-question">
+							<div id="offers-section" class="forum-questions">
+								<div id="post-offer" class="usr-question">
 									<div class="usr_img">
 										<img src="http://via.placeholder.com/60x60" alt="">
 									</div>
 									<div class="usr_quest">
-                                        <h2><a href="user-profile-open.html">Nome Usuário</a></h2>
+                                        <h2 id="user-offer"><a href="user-profile-open.html">Nome Usuário</a></h2>
 										<ul class="quest-tags1">
-											<li><span>OBJETO: </span>Furadeira</a></li>
-											<li><span>VOLTAGEM: </span>110V</a></li>
-											<li><span>DISPONIBILIDADE: </span>2 dias</a></li>
-											<li><span>DESCRIÇÃO: </span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi minus suscipit 
+											<li id="obj-offer"><span>OBJETO: </span>Furadeira</a></li>
+											<li id="voltage-offer"><span>VOLTAGEM: </span>110V</a></li>
+											<li id="dead-line-offer"><span>DISPONIBILIDADE: </span>2 dias</a></li>
+											<li id="desc-offer"><span>DESCRIÇÃO: </span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi minus suscipit 
 												consequatur eaque distinctio ab quas est sunt quaerat aperiam quasi quam officia eos ullam, 
 												assumenda impedit tenetur nisi alias.</li>
 										</ul>
@@ -84,94 +84,6 @@
 										</ul>
 									</div><!--usr_quest end-->
 									<span class="quest-posted-time"><i class="fa fa-clock-o"></i>3 minutos</span>
-								</div><!--usr-question end-->
-								<div class="usr-question">
-									<div class="usr_img">
-										<img src="http://via.placeholder.com/50x50" alt="">
-									</div>
-									<div class="usr_quest">
-                                        <h2><a href="user-profile-open.html">Nome Usuário</a></h2>
-										<ul class="quest-tags1">
-											<li><span>OBJETO: </span>Batedeira</a></li>
-											<li><span>VOLTAGEM: </span>220V</a></li>
-											<li><span>DISPONIBILIDADE: </span>5 dias</a></li>
-											<li><span>DESCRIÇÃO: </span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi minus suscipit 
-												consequatur eaque distinctio ab quas est sunt quaerat aperiam quasi quam officia eos ullam, 
-												assumenda impedit tenetur nisi alias.</li>
-										</ul>
-										<ul class="quest-tags">
-											<li><a href="#" title="">Tag</a></li>
-											<li><a href="#" title="">Tag</a></li>
-											<li><a href="#" title="">Tag</a></li>
-										</ul>
-									</div><!--usr_quest end-->
-									<span class="quest-posted-time"><i class="fa fa-clock-o"></i>12 horas</span>
-								</div><!--usr-question end-->
-								<div class="usr-question">
-									<div class="usr_img">
-										<img src="http://via.placeholder.com/50x50" alt="">
-									</div>
-									<div class="usr_quest">
-                                        <h2><a href="user-profile-open.html">Nome Usuário</a></h2>
-										<ul class="quest-tags1">
-											<li><span>OBJETO: </span>Lixadeira</a></li>
-											<li><span>VOLTAGEM: </span>110V</a></li>
-											<li><span>DISPONIBILIDADE: </span>12 horas</a></li>
-											<li><span>DESCRIÇÃO: </span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi minus suscipit 
-												consequatur eaque distinctio ab quas est sunt quaerat aperiam quasi quam officia eos ullam, 
-												assumenda impedit tenetur nisi alias.</li>
-										</ul>
-										<ul class="quest-tags">
-											<li><a href="#" title="">Tag</a></li>
-											<li><a href="#" title="">Tag</a></li>
-											<li><a href="#" title="">Tag</a></li>
-										</ul>
-									</div><!--usr_quest end-->
-									<span class="quest-posted-time"><i class="fa fa-clock-o"></i>2 dias</span>
-								</div><!--usr-question end-->
-								<div class="usr-question">
-									<div class="usr_img">
-										<img src="http://via.placeholder.com/50x50" alt="">
-									</div>
-									<div class="usr_quest">
-                                        <h2><a href="user-profile-open.html">Nome Usuário</a></h2>
-										<ul class="quest-tags1">
-											<li><span>OBJETO: </span>Martelo</a></li>
-											<li><span>VOLTAGEM: </span>Não se aplica</a></li>
-											<li><span>DISPONIBILIDADE: </span>1 dia</a></li>
-											<li><span>DESCRIÇÃO: </span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi minus suscipit 
-												consequatur eaque distinctio ab quas est sunt quaerat aperiam quasi quam officia eos ullam, 
-												assumenda impedit tenetur nisi alias.</li>
-										</ul>
-										<ul class="quest-tags">
-											<li><a href="#" title="">Tag</a></li>
-											<li><a href="#" title="">Tag</a></li>
-											<li><a href="#" title="">Tag</a></li>
-										</ul>
-									</div><!--usr_quest end-->
-									<span class="quest-posted-time"><i class="fa fa-clock-o"></i>1 semana</span>
-								</div><!--usr-question end-->
-								<div class="usr-question">
-									<div class="usr_img">
-										<img src="http://via.placeholder.com/50x50" alt="">
-									</div>
-									<div class="usr_quest">
-                                        <h2><a href="user-profile-open.html">Nome Usuário</a></h2>
-										<ul class="quest-tags1">
-											<li><span>OBJETO: </span>Liquidificador</a></li>
-											<li><span>VOLTAGEM: </span>220V</a></li>
-											<li><span>DISPONIBILIDADE: </span>12 horas</a></li>
-											<li><span>DESCRIÇÃO: </span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi minus suscipit 
-												consequatur eaque distinctio ab quas est sunt quaerat aperiam quasi quam officia eos ullam, 
-												assumenda impedit tenetur nisi alias.</li>
-										</ul>
-										<ul class="quest-tags">
-											<li><a href="#" title="">Tag</a></li>
-											<li><a href="#" title="">Tag</a></li>
-											<li><a href="#" title="">Tag</a></li>
-										</ul>
-									</div><!--usr_quest end-->
-									<span class="quest-posted-time"><i class="fa fa-clock-o"></i>2 meses</span>
 								</div><!--usr-question end-->
 							</div><!--forum-questions end-->
 							<nav aria-label="Page navigation example" class="full-pagi">
@@ -210,5 +122,6 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="lib/slick/slick.min.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
+<script type="text/javascript" src="js/data.js"></script>
 </body>
 </html>

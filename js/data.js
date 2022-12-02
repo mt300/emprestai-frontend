@@ -5,7 +5,8 @@ const Data = [
         obj: "Batedeira",
         voltage: "110V",
         deadLine: "4 dias",
-        desc: "Lorem ipsum dolor sit amet consectetur"
+        desc: "Lorem ipsum dolor sit amet consectetur",
+        type: "offer"
     },
     {
         id: 2,
@@ -13,7 +14,8 @@ const Data = [
         obj: "Furadeira",
         voltage: "220V",
         deadLine: "4 dias",
-        desc: "Lorem ipsum dolor sit amet consectetur"
+        desc: "Lorem ipsum dolor sit amet consectetur",
+        type: "demand"
     },
     {
         id: 3,
@@ -21,7 +23,8 @@ const Data = [
         obj: "Martelo",
         voltage: "Não se aplica",
         deadLine: "4 dias",
-        desc: "Lorem ipsum dolor sit amet consectetur"
+        desc: "Lorem ipsum dolor sit amet consectetur",
+        type: "offer"
     },
     {
         id: 4,
@@ -29,7 +32,8 @@ const Data = [
         obj: "Cerra",
         voltage: "110V",
         deadLine: "4 dias",
-        desc: "Lorem ipsum dolor sit amet consectetur"
+        desc: "Lorem ipsum dolor sit amet consectetur",
+        type: "demand"
     },
     {
         id: 5,
@@ -37,7 +41,8 @@ const Data = [
         obj: "Furadeira",
         voltage: "110V",
         deadLine: "4 dias",
-        desc: "Lorem ipsum dolor sit amet consectetur"
+        desc: "Lorem ipsum dolor sit amet consectetur",
+        type: "demand"
     },
     {
         id: 6,
@@ -45,14 +50,18 @@ const Data = [
         obj: "Maquinha",
         voltage: "110V",
         deadLine: "4 dias",
-        desc: "Lorem ipsum dolor sit amet consectetur"
+        desc: "Lorem ipsum dolor sit amet consectetur",
+        type: "offer"
     }
 ];
 
 if( localStorage.getItem("data") == undefined){
     localStorage.setItem("data", JSON.stringify(Data));
     localStorage.setItem("id-counter", Data.length)
-    localStorage.setItem("data-offer", JSON.stringify(Data.filter(e=>{return (e.id%2 == 0)})));
+    localStorage.setItem("data-demand", JSON.stringify(Data.filter(e=>{return (e.type == "demand")})));
+    sessionStorage.setItem("data-demand", JSON.stringify(Data.filter(e=>{return (e.type == "demand")})));
+    sessionStorage.setItem("data-offer", JSON.stringify(Data.filter(e=>{return (e.type == "offer")})));
+    
 }
 
 
@@ -107,16 +116,13 @@ function fetchData(){
     });
 }
 
-sessionStorage.getItem("data-offer");
 function fetchRequests(){
-    var database = JSON.parse(sessionStorage.getItem("data-offer"));
-    console.log("oi gente ");
-    console.log(database)
+    var database = JSON.parse(sessionStorage.getItem("data-demand"));
+    // console.log("oi gente ");
+    // console.log(database)
     var post = document.getElementById("post-request");
-    // var deleteBtn = document.getElementById("delete-post");
     var postsSection = document.getElementById("requests-section");
     postsSection.removeChild(post);
-    // console.log(database)
     database.sort(function(a,b){ return (b.id - a.id)})
     database.forEach( data => {
         var newPost = document.createElement("div");
@@ -126,7 +132,7 @@ function fetchRequests(){
         newPost.classList.add("usr-question");
 
         var user = newPost.querySelector("#user-request") 
-        user.childNodes[0].data = data.user;
+        user.childNodes[0].textContent = data.user;
 
         var obj = newPost.querySelector("#obj-request")
         obj.childNodes[1].data = data.obj
@@ -146,10 +152,48 @@ function fetchRequests(){
         // console.log(deleteBtn)
         
         postsSection.appendChild(newPost)
-    });
-
-    
+    });    
 }
+
+function fetchOffers(){
+    var database = JSON.parse(sessionStorage.getItem("data-offer"));
+    console.log("oi gente ");
+    console.log(database)
+    var post = document.getElementById("post-offer");
+    var postsSection = document.getElementById("offers-section");
+    postsSection.removeChild(post);
+    database.sort(function(a,b){ return (b.id - a.id)})
+    database.forEach( data => {
+        var newPost = document.createElement("div");
+        
+        // copying and creating new posts with data stored
+        newPost.innerHTML = post.innerHTML;
+        newPost.classList.add("usr-question");
+
+        var user = newPost.querySelector("#user-offer") 
+        user.childNodes[0].textContent = data.user;
+
+        var obj = newPost.querySelector("#obj-offer")
+        obj.childNodes[1].data = data.obj
+
+        var deadLine = newPost.querySelector("#dead-line-offer")
+        deadLine.childNodes[1].data = data.deadLine;
+
+
+        var voltage = newPost.querySelector("#voltage-offer")
+        voltage.childNodes[1].data = data.voltage;
+
+        var desc = newPost.querySelector("#desc-offer")
+        desc.childNodes[1].data = data.desc;
+
+        // newPost.querySelector("#delete-post-").addEventListener("click",() => deletePost(data.id));
+        
+        // console.log(deleteBtn)
+        
+        postsSection.appendChild(newPost)
+    });   
+}
+
 // comment
 const newPostOffer = function(){
     var obj = document.getElementById("obj-input").value;
@@ -166,14 +210,21 @@ const newPostOffer = function(){
         obj: obj,
         voltage: voltage,
         deadLine: deadLine1+deadLine2,
-        desc: desc
+        desc: desc,
+        type: "offer"
     }
 
-    var data = JSON.parse(localStorage.getItem("data"));
-    data.push(post);
+    var dataSession = JSON.parse(sessionStorage.getItem("data-offer"));
+    dataSession.push(post);
+    sessionStorage.setItem("data-offer",JSON.stringify(dataSession));
+    
+
+    var dataLocal = JSON.parse(localStorage.getItem("data"));
+    dataLocal.push(post);
+    localStorage.setItem("data",JSON.stringify(dataLocal));
+    
     // console.log(window.location.href); 
     // window.location.replace("http://www.w3schools")
-    localStorage.setItem("data",JSON.stringify(data));
     // console.log(data);
 }
 
@@ -192,20 +243,15 @@ const newDemand = function () {
         obj: obj,
         voltage: voltage,
         deadLine: deadLine1+deadLine2,
-        desc: desc
+        desc: desc,
+        type: "demand"
     }
-    var data = JSON.parse(localStorage.getItem("data-offer"));
-    // console.log(data);
-    data.push(post);
-    // console.log(data);
-    var url = window.location.href;
-    // var index = url.findIndex("index.html");
-    var requestUrl = url.split("index.html")[0];
-    url = requestUrl+"request.html";
-    console.log(url);
-    // console.log(index)
-    sessionStorage.setItem("data-offer",JSON.stringify(data));
-    // window.location.reload(url);
-    // localStorage.setItem("data-offer",JSON.stringify(data));
+    var dataSession = JSON.parse(sessionStorage.getItem("data-demand"));
+    dataSession.push(post);
+    sessionStorage.setItem("data-demand",JSON.stringify(dataSession));
     
+
+    var dataLocal = JSON.parse(localStorage.getItem("data"));
+    dataLocal.push(post);
+    localStorage.setItem("data",JSON.stringify(dataLocal));
 }
