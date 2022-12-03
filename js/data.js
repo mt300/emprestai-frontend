@@ -78,7 +78,7 @@ const Logged = {
 if( localStorage.getItem("data") == undefined){
     localStorage.setItem("data", JSON.stringify(Data));
     localStorage.setItem("id-counter", Data.length)
-    localStorage.setItem("data-demand", JSON.stringify(Data.filter(e=>{return (e.type == "demand")})));
+    // localStorage.setItem("data-demand", JSON.stringify(Data.filter(e=>{return (e.type == "demand")})));
     sessionStorage.setItem("data-demand", JSON.stringify(Data.filter(e=>{return (e.type == "demand")})));
     sessionStorage.setItem("data-offer", JSON.stringify(Data.filter(e=>{return (e.type == "offer")})));
     sessionStorage.setItem("users",JSON.stringify(Users));
@@ -91,8 +91,28 @@ if( localStorage.getItem("data") == undefined){
 function deletePost(id){
     var database = JSON.parse(localStorage.getItem("data"));
     var index = database.findIndex(p => p.id == id);
+    var type = database[index].type;
+    // console.log(type)
     if(index >= 0){
         database.splice(index,1);
+    }
+    
+    if(type == "demand"){
+        var demands = JSON.parse(sessionStorage.getItem("data-demand"));
+        var ind = demands.findIndex(p => p.id == id);
+        if(ind >= 0){
+            demands.splice(ind,1);
+        }
+        console.log("demand: "+ind)
+        sessionStorage.setItem("data-demand",JSON.stringify(demands)); 
+    }else{
+        console.log("offer: "+ ind)
+        var offers = JSON.parse(sessionStorage.getItem("data-offer"));
+        var ind = offers.findIndex(p => p.id == id);
+        if(ind >= 0){
+            offers.splice(ind,1);
+        }
+        sessionStorage.setItem("data-offer",JSON.stringify(offers));
     }
     console.log("deletou " + id)
     localStorage.setItem("data",JSON.stringify(database));
@@ -178,8 +198,10 @@ function redirectIndex(){
     var logged = JSON.parse(sessionStorage.getItem("logged"));
     // console.log(logged.value)
     if(logged.value == true){
-        location.replace("file:///home/tomazi/Documents/getninjas/stupids/EmprestaAi/index.html");
-        console.log(logged)
+        var url = location.href.split("sign-in.html")[0] + "index.html"
+        location.replace(url);
+        // console.log(url)
+        // console.log(logged)
     }   
     // console.log(logged)
         
@@ -349,3 +371,17 @@ const newDemand = function () {
     dataLocal.push(post);
     localStorage.setItem("data",JSON.stringify(dataLocal));
 }
+
+// function resetarApresentacao(){
+//     var url = location.href.split("/");
+//     url.splice(url.length - 1,1);
+//     var urlIndex = "";
+//     url.forEach(item => {
+//         urlIndex = urlIndex + item + "/";
+//     })
+//     location.replace(urlIndex + "index.html");
+//     localStorage.clear();
+//     location.reload();
+//     // location.replace(urlIndex + "sign-in.html");
+//     console.log("oi")
+// }
