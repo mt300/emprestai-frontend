@@ -176,7 +176,7 @@ function login() {
 }
 function redirectIndex(){
     var logged = JSON.parse(sessionStorage.getItem("logged"));
-    console.log(logged.value)
+    // console.log(logged.value)
     if(logged.value == true){
         location.replace("file:///home/tomazi/Documents/getninjas/stupids/EmprestaAi/index.html");
         console.log(logged)
