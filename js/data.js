@@ -1,3 +1,7 @@
+// import "https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js";
+// import "./axios.min.js";
+
+
 const Data = [
     {
         id: 1,
@@ -70,20 +74,20 @@ const Users = [
     }
 ]
 
-const Logged = {
-    value: false,
-    user: "",
-    city: ""
-}
-if( localStorage.getItem("data") == undefined){
-    localStorage.setItem("data", JSON.stringify(Data));
-    localStorage.setItem("id-counter", Data.length)
-    // localStorage.setItem("data-demand", JSON.stringify(Data.filter(e=>{return (e.type == "demand")})));
-    sessionStorage.setItem("data-demand", JSON.stringify(Data.filter(e=>{return (e.type == "demand")})));
-    sessionStorage.setItem("data-offer", JSON.stringify(Data.filter(e=>{return (e.type == "offer")})));
-    sessionStorage.setItem("users",JSON.stringify(Users));
-    sessionStorage.setItem("logged",JSON.stringify(Logged))
-}
+// const Logged = {
+//     value: false,
+//     user: "",
+//     city: ""
+// }
+// if( localStorage.getItem("data") == undefined){
+//     localStorage.setItem("data", JSON.stringify(Data));
+//     localStorage.setItem("id-counter", Data.length)
+//     // localStorage.setItem("data-demand", JSON.stringify(Data.filter(e=>{return (e.type == "demand")})));
+//     sessionStorage.setItem("data-demand", JSON.stringify(Data.filter(e=>{return (e.type == "demand")})));
+//     sessionStorage.setItem("data-offer", JSON.stringify(Data.filter(e=>{return (e.type == "offer")})));
+//     sessionStorage.setItem("users",JSON.stringify(Users));
+//     sessionStorage.setItem("logged",JSON.stringify(Logged))
+// }
 
 
 
@@ -194,47 +198,42 @@ function updateUserProfile(){
     sessionStorage.setItem("users",JSON.stringify(users));
 }
 
-function login() {
-    var users = JSON.parse(sessionStorage.getItem("users"));
-    var userLogin = document.querySelector("#user-login").value;
-    var userPassword = document.querySelector("#password-login").value;
-    var name;
-    var city;
-    if(users.find((user) => { 
-        if(userPassword == user.password){
-            // console.log("Access.")    
-            name = user.name;
-            city = user.city;
-            return userLogin == user.login
-        }else{
-            // console.log("invalid password")
-            return false;
-        }
-    })){
-        // window.location.href = "file:///home/tomazi/Documents/getninjas/stupids/EmprestaAi/index.html"
-        // var logged = sessionStorage.getItem("logged");
-        var logged = {
-            value:true,
-            user: name,
-            city: city
-        };
-        console.log(name);
-        sessionStorage.setItem("logged",JSON.stringify(logged));
-        // console.log(location.href)
-    }else{
-        console.log("No")
-    }
-}
+// const storedToken = localStorage.getItem("authToken");
+// var axiosConfig = {
+//     headers: {
+//         Authorization: "Bearer " + storedToken
+//     }
+// }
+// function login() {
+//     var userLogin = document.querySelector("#user-login").value;
+//     var userPassword = document.querySelector("#password-login").value;
+//     // console.log(axios);
+//     axios.post("http://localhost:8080/auth",axiosConfig,{
+//             email:userLogin,
+//             password: userPassword
+//         }).then( res => {
+//             var token = res.data.token;
+//             localStorage.setItem("authToken", token);
+//             axiosConfig.headers.Authorization = "Bearer " + storedToken
+//             alert("Logged in " );
+//             console.log(res);
+            
+//         }).catch(err => {
+//             console.log(err);
+//             alert("Failed to login");
+//         });
+// }
+
 function redirectIndex(){
-    var logged = JSON.parse(sessionStorage.getItem("logged"));
-    // console.log(logged.value)
-    if(logged.value == true){
+    var logged = JSON.parse(sessionStorage.getItem("loggedUser"));
+    console.log(logged.email)
+    if(logged != undefined){
         var url = location.href.split("sign-in.html")[0] + "index.html"
         location.replace(url);
         // console.log(url)
         // console.log(logged)
     }   
-    // console.log(logged)
+    // console.log("perai")
         
 }
 function logout(){
@@ -243,25 +242,25 @@ function logout(){
     sessionStorage.setItem("logged",JSON.stringify(logged));    
 }
 
-function join(){
-    var name = document.querySelector("#nome").value;
-    var email = document.querySelector("#email").value;
-    var password = document.querySelector("#senha").value;
-    var municipio = document.querySelector("#municipio").value;
-    var estado = document.querySelector("#estado").value;
-    var tc = document.querySelector("#c2").value;
+// function join(){
+//     var name = document.querySelector("#nome").value;
+//     var email = document.querySelector("#email").value;
+//     var password = document.querySelector("#senha").value;
+//     var municipio = document.querySelector("#municipio").value;
+//     var estado = document.querySelector("#estado").value;
+//     var tc = document.querySelector("#c2").value;
 
-    var user = {
-        name: name,
-        login: email,
-        password: password,
-        city: municipio + "/" + estado
-    }
-    var users = JSON.parse(sessionStorage.getItem("users"));
-    users.push(user);
-    console.log(user)
-    sessionStorage.setItem("users",JSON.stringify(users));
-}
+//     var user = {
+//         name: name,
+//         login: email,
+//         password: password,
+//         city: municipio + "/" + estado
+//     }
+//     var users = JSON.parse(sessionStorage.getItem("users"));
+//     users.push(user);
+//     console.log(user)
+//     sessionStorage.setItem("users",JSON.stringify(users));
+// }
 
 function fetchRequests(){
     var database = JSON.parse(sessionStorage.getItem("data-demand"));
