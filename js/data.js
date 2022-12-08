@@ -123,49 +123,7 @@ function deletePost(id){
     location.reload();
 }
  //fetch data 
-function fetchData(){
-    var database = JSON.parse(localStorage.getItem("data"));
-    var post = document.getElementById("post-bar");
-    var deleteBtn = document.getElementById("delete-post");
-    var postsSection = document.getElementById("posts-section");
-    postsSection.removeChild(post);
-    // console.log(database)
-    database.sort(function(a,b){ return (b.id - a.id)})
-    database.forEach( data => {
-        var newPost = document.createElement("div");
-        
-        // copying and creating new posts with data stored
-        newPost.innerHTML = post.innerHTML;
-        newPost.classList.add("post-bar");
-        
-        var user = newPost.querySelector("#user") 
-        user.childNodes[0].data = data.user;
-        
-        var obj = newPost.querySelector("#obj")
-        obj.childNodes[1].data = data.obj
-        
-        var deadLine = newPost.querySelector("#dead-line")
-        deadLine.childNodes[1].data = data.deadLine;
-        
-        
-        var voltage = newPost.querySelector("#voltage")
-        voltage.childNodes[1].data = data.voltage;
-        
-        var desc = newPost.querySelector("#desc")
-        desc.childNodes[1].data = data.desc;
-        
-        newPost.querySelector("#delete-post").addEventListener("click",() => deletePost(data.id));
-        
-        // console.log(deleteBtn)
-        
-        postsSection.appendChild(newPost)
-    });
-    var user = JSON.parse(sessionStorage.getItem("logged"));
-    if(user.value == true){
-        document.querySelector("#user-name-logged").textContent = user.user;
-        document.querySelector("#city").textContent = user.city;
-    }
-}
+
 function loadUserProfile(){
     var user = JSON.parse(sessionStorage.getItem("logged"));
     var users = JSON.parse(sessionStorage.getItem("users"));
@@ -198,69 +156,18 @@ function updateUserProfile(){
     sessionStorage.setItem("users",JSON.stringify(users));
 }
 
-// const storedToken = localStorage.getItem("authToken");
-// var axiosConfig = {
-//     headers: {
-//         Authorization: "Bearer " + storedToken
-//     }
-// }
-// function login() {
-//     var userLogin = document.querySelector("#user-login").value;
-//     var userPassword = document.querySelector("#password-login").value;
-//     // console.log(axios);
-//     axios.post("http://localhost:8080/auth",axiosConfig,{
-//             email:userLogin,
-//             password: userPassword
-//         }).then( res => {
-//             var token = res.data.token;
-//             localStorage.setItem("authToken", token);
-//             axiosConfig.headers.Authorization = "Bearer " + storedToken
-//             alert("Logged in " );
-//             console.log(res);
-            
-//         }).catch(err => {
-//             console.log(err);
-//             alert("Failed to login");
-//         });
-// }
-
 function redirectIndex(){
     var logged = JSON.parse(sessionStorage.getItem("loggedUser"));
     console.log(logged.email)
     if(logged != undefined){
         var url = location.href.split("sign-in.html")[0] + "index.html"
         location.replace(url);
-        // console.log(url)
-        // console.log(logged)
     }   
-    // console.log("perai")
-        
 }
+
 function logout(){
-    var logged = JSON.parse(sessionStorage.getItem("logged"));
-    logged.value = false;
-    sessionStorage.setItem("logged",JSON.stringify(logged));    
+    sessionStorage.setItem("loggedUser",undefined);    
 }
-
-// function join(){
-//     var name = document.querySelector("#nome").value;
-//     var email = document.querySelector("#email").value;
-//     var password = document.querySelector("#senha").value;
-//     var municipio = document.querySelector("#municipio").value;
-//     var estado = document.querySelector("#estado").value;
-//     var tc = document.querySelector("#c2").value;
-
-//     var user = {
-//         name: name,
-//         login: email,
-//         password: password,
-//         city: municipio + "/" + estado
-//     }
-//     var users = JSON.parse(sessionStorage.getItem("users"));
-//     users.push(user);
-//     console.log(user)
-//     sessionStorage.setItem("users",JSON.stringify(users));
-// }
 
 function fetchRequests(){
     var database = JSON.parse(sessionStorage.getItem("data-demand"));
