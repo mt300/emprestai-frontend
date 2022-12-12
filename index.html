@@ -34,10 +34,10 @@
 					</div><!--login_register end-->
 
 					<div class="search-bar st2">
-						<form>
-							<input type="text" name="search" placeholder="Procurar...">
-							<button type="submit"><i class="la la-search"></i></button>
-						</form>
+						<!-- <form> -->
+							<input type="text" id="searchField" oninput="search()" name="search" placeholder="Procurar...">
+							<i class="la la-search"></i>
+						<!-- </form> -->
 					</div><!--search-bar end-->
 				</div><!--header-data end-->
 			</div>
@@ -94,7 +94,7 @@
 										</div><!--post-st end-->
 									</div><!--post-topbar end-->
 									<div id="posts-section" class="posts-section">
-										<div id="post-bar" class="post-bar">
+										<div id="post-bar" class="post-bar2" style="display:none;">
 											<div class="post_topbar">
 												<div class="usy-dt">
 													<img src="http://via.placeholder.com/50x50" alt="">
@@ -106,7 +106,7 @@
 												<div class="ed-opts">
 													<a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
 													<ul class="ed-options">
-														<li><a href="#" id="delete-post">Excluir</a></li>
+														<li><button type="button" style="border-style: none; background-color: transparent" id="delete-post" >Excluir</button></li>
 													</ul>
 												</div>
 											</div>
@@ -121,7 +121,7 @@
 												</ul>
 											</br>
 												<ul class="job-dt">
-													<li><a href="offer.html" title="">Ofereço</a></li>
+													<li><a href="offer.html" title="" id="tag-badge">Ofereço</a></li>
 												</ul>
 											</div><!--usr_quest end-->
 										</div><!--post-bar end-->
@@ -205,7 +205,7 @@
 							</div>
 							<div class="col-lg-12">
 								<ul>
-									<li><button class="active" type="submit" onclick="newPostOffer()" value="post">Postar</button></li>
+									<li><button class="active" type="button" onclick="newOffer()" value="post">Postar</button></li>
 									<li><button onclick="self.close()">Cancelar</button></li>
 								</ul>
 							</div>
@@ -254,7 +254,7 @@
 							</div>
 							<div class="col-lg-12">
 								<ul>
-									<li><button class="active" type="submit" onclick="newDemand()" value="post">Postar</button></li>
+									<li><button class="active" type="button" onclick="newDemand()" value="post">Postar</button></li>
 									<li><button onclick="self.close()">Cancelar</button></li>
 								</ul>
 							</div>
@@ -285,62 +285,164 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="lib/slick/slick.min.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
-</body>
-<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="text/javascript" src="js/data.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+</body>
 <script>
 	const storedToken = sessionStorage.getItem("authToken");
 	var axiosConfig = {
 		headers: {
-			Authorization: "Bearer " + storedToken
+			Authorization: "Bearer " + storedToken,
+			AccessControlAllowCredentials: true,
+			AccessControlAllowOrigin: "*"
 		}
 	}
-	function fetchData(){
+
+	function search(){
+		var search = document.getElementById("searchField").value;
+		var postsVisibles = document.getElementsByClassName("post-bar");
 		
-		axios.get("http://localhost:8080/posts",axiosConfig).then( res => {
-			var database = res.data.posts;
-			
-			var post = document.getElementById("post-bar");
-			var postsSection = document.getElementById("posts-section");
-			var userName;
-			// axios.get("http://localhost:8080/user/"+)
-			postsSection.removeChild(post);
-			database.sort(function(a,b){ return (b.id - a.id)})
-			database.forEach( data => {
-				var newPost = document.createElement("div");
-				
-				// copying and creating new posts with data stored
-				newPost.innerHTML = post.innerHTML;
-				newPost.classList.add("post-bar");
-				
-				var user = newPost.querySelector("#user") 
-				user.childNodes[0].data = data.userName;
-				
-				var obj = newPost.querySelector("#obj")
-				obj.childNodes[1].data = data.object
-				
-				var deadLine = newPost.querySelector("#dead-line")
-				deadLine.childNodes[1].data = data.deadline;
-				
-				
-				var voltage = newPost.querySelector("#voltage")
-				voltage.childNodes[1].data = data.voltage;
-				
-				var desc = newPost.querySelector("#desc")
-				desc.childNodes[1].data = data.description;
-				
-				newPost.querySelector("#delete-post").addEventListener("click",() => deletePost(data.id));
-				
-				
-				postsSection.appendChild(newPost)
-			});
-			var user = JSON.parse(sessionStorage.getItem("loggedUser"));
-			if(user != undefined){
-				document.querySelector("#user-name-logged").textContent = user.name;
-				document.querySelector("#city").textContent = user.city;
+		console.log(search)
+		
+		if (search != ''){
+			for (let post of postsVisibles){
+				if(post.innerHTML.toLowerCase().search(search.toLowerCase()) > 0){
+					post.style.display = "inline";
+				}else{
+					post.style.display = "none";
+				}		
 			}
-			})
+		}else{
+			for (let post of postsVisibles){
+				post.style.display = "inline";
+			}
 		}
-		</script>
+	}
+	function deletePost(id){
+		console.log("msg")
+		axios.put("http://localhost:8080/post/" + id,{active:false},axiosConfig)
+			.then( (res) => {
+				console.log("ok")
+				fetchData();
+				// redirectIndex("index.html");	
+				location.reload();
+			})
+			.catch( err => console.log("estou muito triste" + err));
+	}
+	function fetchData(){
+		// var done = false;
+		axios.get("http://localhost:8080/actives",axiosConfig).then( res => {
+			let data = res.data.posts;
+			console.log(data)
+			sessionStorage.setItem("posts",JSON.stringify(data));
+			done = true;
+			// location.reload()
+		}).catch(err => {
+				console.log(err);
+			});
+		// while(done == false){
+			// console.log("k")
+		// }
+		// console.log(done)
+		var database = JSON.parse(sessionStorage.getItem("posts"))
+		var post = document.getElementById("post-bar");
+		var postsSection = document.getElementById("posts-section");
+		// postsSection.removeChild(post);
+		database.sort(function(a,b){ return (b.id - a.id)})
+		database.forEach( data => {
+			var newPost = document.createElement("div");
+			
+			// copying and creating new posts with data stored
+			// newPost.id = data.id
+			newPost.innerHTML = post.innerHTML;
+			newPost.classList.add("post-bar");
+			
+			var user = newPost.querySelector("#user") 
+			user.childNodes[0].data = data.userName;
+			
+			var obj = newPost.querySelector("#obj")
+			obj.childNodes[1].data = data.object
+			
+			var deadLine = newPost.querySelector("#dead-line")
+			deadLine.childNodes[1].data = data.deadline;
+			
+			
+			var voltage = newPost.querySelector("#voltage")
+			voltage.childNodes[1].data = data.voltage;
+			
+			var desc = newPost.querySelector("#desc")
+			desc.childNodes[1].data = data.description;
+			
+			var badge = newPost.querySelector("#tag-badge")
+			badge.textContent = (data.type == "offer")?"ofereço":"procuro";
+			
+			console.log(data.id)
+			newPost.querySelector("#delete-post").addEventListener("click",() => deletePost(data.id));
+			
+			postsSection.appendChild(newPost)
+		})
+		var user = JSON.parse(sessionStorage.getItem("loggedUser"));
+		if(user != undefined){
+			document.querySelector("#user-name-logged").textContent = user.name;
+			document.querySelector("#city").textContent = user.city;
+		}
+	}
+		
+
+	const newOffer = function(){
+		var obj = document.getElementById("obj-input").value;
+		var deadLine1 = document.getElementById("dead-line-1-input").value;
+		var deadLine2 = document.getElementById("dead-line-2-input").value;
+		var desc = document.getElementById("desc-input").value;
+		var voltage = document.getElementById("voltage-input").value;
+		var logged = JSON.parse(sessionStorage.getItem("loggedUser"));
+		// {userId, voltage, object, deadLine, desc, type,userEmail, userName}
+		axios.post("http://localhost:8080/post",{
+			userId: logged.id,
+			userName: logged.name,
+			userEmail: logged.email, 
+			voltage: voltage,
+			object: obj,
+			deadLine: deadLine1+ " " +deadLine2,
+			desc: desc,
+			type: "offer",
+		},axiosConfig).then( res => {
+			fetchData();
+			location.reload();
+			// redirectIndex();
+
+			// console.log(res.data)
+		}).catch( err => {
+			console.log(err);
+		})
+	}
+	const newDemand = function (){
+		var obj = document.getElementById("obj-input-demand").value;
+		var deadLine1 = document.getElementById("dead-line-1-input-demand").value;
+		var deadLine2 = document.getElementById("dead-line-2-input-demand").value;
+		var desc = document.getElementById("desc-input-demand").value;
+		var voltage = document.getElementById("voltage-input-demand").value;
+		var logged = JSON.parse(sessionStorage.getItem("loggedUser"));
+
+		axios.post("http://localhost:8080/post",{
+			userId: logged.id,
+			userName: logged.name,
+			userEmail: logged.email, 
+			voltage: voltage,
+			object: obj,
+			deadLine: deadLine1+ " " +deadLine2,
+			desc: desc,
+			type: "demand"
+		},axiosConfig).then( res => {
+			fetchData();
+			location.reload();
+			console.log(res.data)
+		}).catch( err => {
+			console.log(err);
+		});
+	}
+
 	
+
+</script>	
 </html>

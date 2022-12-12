@@ -175,12 +175,12 @@
 <script type="text/javascript" src="lib/slick/slick.min.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
 <script type="text/javascript" src="js/data.js"></script>
-<script type="text/javascript" src="js/axios.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script>
 	const login = function() {
 		var email = document.querySelector("#user-login").value;
 		var password = document.querySelector("#password-login").value;
-		// console.log(axios);
+		
 		axios.post("http://localhost:8080/auth",{
 			email,
 			password
@@ -190,14 +190,11 @@
 			sessionStorage.setItem("authToken", token);
 			sessionStorage.setItem("loggedUser", JSON.stringify(loggedUser));
 			axiosConfig.headers.Authorization = "Bearer " + storedToken
-			// alert("Logged in " );
-			redirectIndex();
-			console.log(res.data);
-			console.log("deu certo");
+			redirectIndex("sign-in.html");
 			
 		}).catch(function(err){
-			console.log(err.request);
-			console.log("falhou")
+			// console.log(err);
+			// console.log("falhou")
 			// alert("Failed to login");
 		});
 	}

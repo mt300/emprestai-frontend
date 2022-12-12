@@ -92,36 +92,36 @@ const Users = [
 
 
  // delete data
-function deletePost(id){
-    var database = JSON.parse(localStorage.getItem("data"));
-    var index = database.findIndex(p => p.id == id);
-    var type = database[index].type;
-    // console.log(type)
-    if(index >= 0){
-        database.splice(index,1);
-    }
+// function deletePost(id){
+//     var database = JSON.parse(localStorage.getItem("data"));
+//     var index = database.findIndex(p => p.id == id);
+//     var type = database[index].type;
+//     // console.log(type)
+//     if(index >= 0){
+//         database.splice(index,1);
+//     }
     
-    if(type == "demand"){
-        var demands = JSON.parse(sessionStorage.getItem("data-demand"));
-        var ind = demands.findIndex(p => p.id == id);
-        if(ind >= 0){
-            demands.splice(ind,1);
-        }
-        console.log("demand: "+ind)
-        sessionStorage.setItem("data-demand",JSON.stringify(demands)); 
-    }else{
-        console.log("offer: "+ ind)
-        var offers = JSON.parse(sessionStorage.getItem("data-offer"));
-        var ind = offers.findIndex(p => p.id == id);
-        if(ind >= 0){
-            offers.splice(ind,1);
-        }
-        sessionStorage.setItem("data-offer",JSON.stringify(offers));
-    }
-    console.log("deletou " + id)
-    localStorage.setItem("data",JSON.stringify(database));
-    location.reload();
-}
+//     if(type == "demand"){
+//         var demands = JSON.parse(sessionStorage.getItem("data-demand"));
+//         var ind = demands.findIndex(p => p.id == id);
+//         if(ind >= 0){
+//             demands.splice(ind,1);
+//         }
+//         console.log("demand: "+ind)
+//         sessionStorage.setItem("data-demand",JSON.stringify(demands)); 
+//     }else{
+//         console.log("offer: "+ ind)
+//         var offers = JSON.parse(sessionStorage.getItem("data-offer"));
+//         var ind = offers.findIndex(p => p.id == id);
+//         if(ind >= 0){
+//             offers.splice(ind,1);
+//         }
+//         sessionStorage.setItem("data-offer",JSON.stringify(offers));
+//     }
+//     console.log("deletou " + id)
+//     localStorage.setItem("data",JSON.stringify(database));
+//     location.reload();
+// }
  //fetch data 
 
 function loadUserProfile(){
@@ -156,11 +156,11 @@ function updateUserProfile(){
     sessionStorage.setItem("users",JSON.stringify(users));
 }
 
-function redirectIndex(){
+function redirectIndex(ref){
     var logged = JSON.parse(sessionStorage.getItem("loggedUser"));
     console.log(logged.email)
     if(logged != undefined){
-        var url = location.href.split("sign-in.html")[0] + "index.html"
+        var url = location.href.split(ref)[0] + "index.html"
         location.replace(url);
     }   
 }
@@ -248,66 +248,57 @@ function fetchOffers(){
 }
 
 // comment
-const newPostOffer = function(){
-    var obj = document.getElementById("obj-input").value;
-    var deadLine1 = document.getElementById("dead-line-1-input").value;
-    var deadLine2 = document.getElementById("dead-line-2-input").value;
-    var desc = document.getElementById("desc-input").value;
-    var voltage = document.getElementById("voltage-input").value;
-    var id = Number(localStorage.getItem("id-counter")) + 1;
-    localStorage.setItem("id-counter",id);
-    var user = document.getElementById("user-name-logged").textContent;
-    var post = {
-        id: id,
-        user: user, 
-        obj: obj,
-        voltage: voltage,
-        deadLine: deadLine1+deadLine2,
-        desc: desc,
-        type: "offer"
-    }
+// const newOffer = function(){
+//     var obj = document.getElementById("obj-input").value;
+//     var deadLine1 = document.getElementById("dead-line-1-input").value;
+//     var deadLine2 = document.getElementById("dead-line-2-input").value;
+//     var desc = document.getElementById("desc-input").value;
+//     var voltage = document.getElementById("voltage-input").value;
+//     var logged = JSON.parse(sessionStorage.getItem("loggedUser"));
+//     // {userId, voltage, object, deadLine, desc, type,userEmail, userName}
+//     axios.post("http://localhost:8080/post",axiosConfig,{
+//         userId: logged.id,
+//         userName: logged.name,
+//         userEmail: logged.email, 
+//         voltage: voltage,
+//         object: obj,
+//         deadLine: deadLine1+deadLine2,
+//         desc: desc,
+//         type: "offer",
+//     }).then( res => {
+//         console.log(res.data)
+//     }).catch( err => {
+//         console.log(err);
+//     })
+// }
 
-    var dataSession = JSON.parse(sessionStorage.getItem("data-offer"));
-    dataSession.push(post);
-    sessionStorage.setItem("data-offer",JSON.stringify(dataSession));
+// const newDemand = function () {
+//     var obj = document.getElementById("obj-input-demand").value;
+//     var deadLine1 = document.getElementById("dead-line-1-input-demand").value;
+//     var deadLine2 = document.getElementById("dead-line-2-input-demand").value;
+//     var desc = document.getElementById("desc-input-demand").value;
+//     var voltage = document.getElementById("voltage-input-demand").value;
+//     var user = document.getElementById("user-name-logged").textContent;
+//     var id = Number(localStorage.getItem("id-counter")) + 1;
+//     localStorage.setItem("id-counter",id);
+//     var post = {
+//         id: id,
+//         user: user, 
+//         obj: obj,
+//         voltage: voltage,
+//         deadLine: deadLine1+deadLine2,
+//         desc: desc,
+//         type: "demand"
+//     }
+//     var dataSession = JSON.parse(sessionStorage.getItem("data-demand"));
+//     dataSession.push(post);
+//     sessionStorage.setItem("data-demand",JSON.stringify(dataSession));
     
 
-    var dataLocal = JSON.parse(localStorage.getItem("data"));
-    dataLocal.push(post);
-    localStorage.setItem("data",JSON.stringify(dataLocal));
-    
-    // console.log(window.location.href); 
-    // window.location.replace("http://www.w3schools")
-    // console.log(data);
-}
-
-const newDemand = function () {
-    var obj = document.getElementById("obj-input-demand").value;
-    var deadLine1 = document.getElementById("dead-line-1-input-demand").value;
-    var deadLine2 = document.getElementById("dead-line-2-input-demand").value;
-    var desc = document.getElementById("desc-input-demand").value;
-    var voltage = document.getElementById("voltage-input-demand").value;
-    var user = document.getElementById("user-name-logged").textContent;
-    var id = Number(localStorage.getItem("id-counter")) + 1;
-    localStorage.setItem("id-counter",id);
-    var post = {
-        id: id,
-        user: user, 
-        obj: obj,
-        voltage: voltage,
-        deadLine: deadLine1+deadLine2,
-        desc: desc,
-        type: "demand"
-    }
-    var dataSession = JSON.parse(sessionStorage.getItem("data-demand"));
-    dataSession.push(post);
-    sessionStorage.setItem("data-demand",JSON.stringify(dataSession));
-    
-
-    var dataLocal = JSON.parse(localStorage.getItem("data"));
-    dataLocal.push(post);
-    localStorage.setItem("data",JSON.stringify(dataLocal));
-}
+//     var dataLocal = JSON.parse(localStorage.getItem("data"));
+//     dataLocal.push(post);
+//     localStorage.setItem("data",JSON.stringify(dataLocal));
+// }
 
 // function resetarApresentacao(){
 //     var url = location.href.split("/");
