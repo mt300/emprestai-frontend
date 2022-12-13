@@ -33,10 +33,9 @@
 						</ul>
 					</div><!--login_register end-->
 					<div class="search-bar st2">
-						<form>
-							<input type="text" name="search" placeholder="Procurar...">
-							<button type="submit"><i class="la la-search"></i></button>
-						</form>
+						<input type="text" id="searchRequest" oninput="searchRequest()" name="search" placeholder="Procurar...">
+						<i class="la la-search"></i>
+						
 					</div><!--search-bar end-->
 				</div><!--header-data end-->
 			</div>
@@ -63,7 +62,7 @@
 					<div class="row">
 						<div class="col-lg-12">
 							<div id="requests-section" class="forum-questions">
-								<div id="post-request" class="usr-question">
+								<div id="post-request" class="usr-question2" style="display:none">
 									<div class="usr_img">
 										<img src="http://via.placeholder.com/60x60" alt="">
 									</div>
@@ -76,11 +75,6 @@
 											<li id="desc-request"><span>DESCRIÇÃO: </span>Lorem ipsum dolor sit amet consectetur, adipisicing elit. Animi minus suscipit 
 												consequatur eaque distinctio ab quas est sunt quaerat aperiam quasi quam officia eos ullam, 
 												assumenda impedit tenetur nisi alias.</li>
-										</ul>
-										<ul class="quest-tags">
-											<li><a href="#" title="">Tag</a></li>
-											<li><a href="#" title="">Tag</a></li>
-											<li><a href="#" title="">Tag</a></li>
 										</ul>
 									</div><!--usr_quest end-->
 									<span class="quest-posted-time"><i class="fa fa-clock-o"></i>3 minutos</span>
@@ -125,4 +119,83 @@
 <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
 <script type="text/javascript" src="js/data.js"></script>
 </body>
+<script>
+	const storedToken = sessionStorage.getItem("authToken");
+	var axiosConfig = {
+		headers: {
+			Authorization: "Bearer " + storedToken,
+			AccessControlAllowCredentials: true,
+			AccessControlAllowOrigin: "*"
+		}
+	}
+	function searchRequest(){
+		var search = document.getElementById("searchRequest").value;
+		var postsVisibles = document.getElementsByClassName("usr-question");
+		
+		console.log(search)
+		
+		if (search != ''){
+			for (let post of postsVisibles){
+				if(post.innerHTML.toLowerCase().search(search.toLowerCase()) > 0){
+					post.style.display = "inline";
+				}else{
+					post.style.display = "none";
+				}		
+			}
+		}else{
+			for (let post of postsVisibles){
+				post.style.display = "inline";
+			}
+		}
+	}
+	function fetchRequests(){
+		var database = JSON.parse(sessionStorage.getItem("posts"));
+		// console.log("oi gente ");
+		// console.log(database)
+		var post = document.getElementById("post-request");
+		var postsSection = document.getElementById("requests-section");
+		// postsSection.removeChild(post);
+		database.sort(function(a,b){ return (b.id - a.id)})
+		// database.map(i => {
+		// 	console.log(i.type)
+		// 	return i.type
+		// })
+		var db = database.filter(el => el.type == "demand")
+		// console.log("pica")
+		// db.map(i => {
+		// 	console.log(i.type)
+		// 	return i.type
+		// })
+		db.forEach( data => {
+			var newPost = document.createElement("div");
+			
+			// copying and creating new posts with data stored
+			newPost.innerHTML = post.innerHTML;
+			newPost.classList.add("usr-question");
+
+			var user = newPost.querySelector("#user-request") 
+			user.childNodes[0].textContent = data.userName;
+
+			var obj = newPost.querySelector("#obj-request")
+			obj.childNodes[1].data = data.object
+
+			var deadLine = newPost.querySelector("#dead-line-request")
+			deadLine.childNodes[1].data = data.deadline;
+
+
+			var voltage = newPost.querySelector("#voltage-request")
+			voltage.childNodes[1].data = data.voltage;
+
+			var desc = newPost.querySelector("#desc-request")
+			desc.childNodes[1].data = data.description;
+
+			// newPost.querySelector("#delete-post-").addEventListener("click",() => deletePost(data.id));
+			
+			// console.log(deleteBtn)
+			
+			postsSection.appendChild(newPost)
+		});    
+	}
+
+</script>
 </html>

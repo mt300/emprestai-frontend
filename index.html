@@ -298,6 +298,18 @@
 		}
 	}
 
+	
+	function deletePost(id){
+		console.log("msg")
+		axios.put("http://localhost:8080/post/" + id,{active:false},axiosConfig)
+			.then( (res) => {
+				console.log("ok")
+				fetchData();
+				// redirectIndex("index.html");	
+				location.reload();
+			})
+			.catch( err => console.log("estou muito triste" + err));
+	}
 	function search(){
 		var search = document.getElementById("searchField").value;
 		var postsVisibles = document.getElementsByClassName("post-bar");
@@ -317,17 +329,6 @@
 				post.style.display = "inline";
 			}
 		}
-	}
-	function deletePost(id){
-		console.log("msg")
-		axios.put("http://localhost:8080/post/" + id,{active:false},axiosConfig)
-			.then( (res) => {
-				console.log("ok")
-				fetchData();
-				// redirectIndex("index.html");	
-				location.reload();
-			})
-			.catch( err => console.log("estou muito triste" + err));
 	}
 	function fetchData(){
 		// var done = false;

@@ -169,83 +169,44 @@ function logout(){
     sessionStorage.setItem("loggedUser",undefined);    
 }
 
-function fetchRequests(){
-    var database = JSON.parse(sessionStorage.getItem("data-demand"));
-    // console.log("oi gente ");
-    // console.log(database)
-    var post = document.getElementById("post-request");
-    var postsSection = document.getElementById("requests-section");
-    postsSection.removeChild(post);
-    database.sort(function(a,b){ return (b.id - a.id)})
-    database.forEach( data => {
-        var newPost = document.createElement("div");
+// function fetchOffers(){
+//     var database = JSON.parse(sessionStorage.getItem("data-offer"));
+//     console.log("oi gente ");
+//     console.log(database)
+//     var post = document.getElementById("post-offer");
+//     var postsSection = document.getElementById("offers-section");
+//     postsSection.removeChild(post);
+//     database.sort(function(a,b){ return (b.id - a.id)})
+//     database.forEach( data => {
+//         var newPost = document.createElement("div");
         
-        // copying and creating new posts with data stored
-        newPost.innerHTML = post.innerHTML;
-        newPost.classList.add("usr-question");
+//         // copying and creating new posts with data stored
+//         newPost.innerHTML = post.innerHTML;
+//         newPost.classList.add("usr-question");
 
-        var user = newPost.querySelector("#user-request") 
-        user.childNodes[0].textContent = data.user;
+//         var user = newPost.querySelector("#user-offer") 
+//         user.childNodes[0].textContent = data.user;
 
-        var obj = newPost.querySelector("#obj-request")
-        obj.childNodes[1].data = data.obj
+//         var obj = newPost.querySelector("#obj-offer")
+//         obj.childNodes[1].data = data.obj
 
-        var deadLine = newPost.querySelector("#dead-line-request")
-        deadLine.childNodes[1].data = data.deadLine;
+//         var deadLine = newPost.querySelector("#dead-line-offer")
+//         deadLine.childNodes[1].data = data.deadLine;
 
 
-        var voltage = newPost.querySelector("#voltage-request")
-        voltage.childNodes[1].data = data.voltage;
+//         var voltage = newPost.querySelector("#voltage-offer")
+//         voltage.childNodes[1].data = data.voltage;
 
-        var desc = newPost.querySelector("#desc-request")
-        desc.childNodes[1].data = data.desc;
+//         var desc = newPost.querySelector("#desc-offer")
+//         desc.childNodes[1].data = data.desc;
 
-        // newPost.querySelector("#delete-post-").addEventListener("click",() => deletePost(data.id));
+//         // newPost.querySelector("#delete-post-").addEventListener("click",() => deletePost(data.id));
         
-        // console.log(deleteBtn)
+//         // console.log(deleteBtn)
         
-        postsSection.appendChild(newPost)
-    });    
-}
-
-function fetchOffers(){
-    var database = JSON.parse(sessionStorage.getItem("data-offer"));
-    console.log("oi gente ");
-    console.log(database)
-    var post = document.getElementById("post-offer");
-    var postsSection = document.getElementById("offers-section");
-    postsSection.removeChild(post);
-    database.sort(function(a,b){ return (b.id - a.id)})
-    database.forEach( data => {
-        var newPost = document.createElement("div");
-        
-        // copying and creating new posts with data stored
-        newPost.innerHTML = post.innerHTML;
-        newPost.classList.add("usr-question");
-
-        var user = newPost.querySelector("#user-offer") 
-        user.childNodes[0].textContent = data.user;
-
-        var obj = newPost.querySelector("#obj-offer")
-        obj.childNodes[1].data = data.obj
-
-        var deadLine = newPost.querySelector("#dead-line-offer")
-        deadLine.childNodes[1].data = data.deadLine;
-
-
-        var voltage = newPost.querySelector("#voltage-offer")
-        voltage.childNodes[1].data = data.voltage;
-
-        var desc = newPost.querySelector("#desc-offer")
-        desc.childNodes[1].data = data.desc;
-
-        // newPost.querySelector("#delete-post-").addEventListener("click",() => deletePost(data.id));
-        
-        // console.log(deleteBtn)
-        
-        postsSection.appendChild(newPost)
-    });   
-}
+//         postsSection.appendChild(newPost)
+//     });   
+// }
 
 // comment
 // const newOffer = function(){
