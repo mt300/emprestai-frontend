@@ -124,37 +124,37 @@ const Users = [
 // }
  //fetch data 
 
-function loadUserProfile(){
-    var user = JSON.parse(sessionStorage.getItem("logged"));
-    var users = JSON.parse(sessionStorage.getItem("users"));
-    var index = users.findIndex(item => item.name == user.user)
-    var userLoged = users.pop(index);
-    document.getElementById("username-userprofile").textContent = user.user;
-    document.getElementById("email-userprofile").textContent = userLoged.login;
-    document.getElementById("city-1-userprofile").value = user.city.split("/")[0];
-    document.getElementById("city-2-userprofile").value = user.city.split("/")[1];        
-}
+// function loadUserProfile(){
+//     var user = JSON.parse(sessionStorage.getItem("logged"));
+//     var users = JSON.parse(sessionStorage.getItem("users"));
+//     var index = users.findIndex(item => item.name == user.user)
+//     var userLoged = users.pop(index);
+//     document.getElementById("username-userprofile").textContent = user.user;
+//     document.getElementById("email-userprofile").textContent = userLoged.login;
+//     document.getElementById("city-1-userprofile").value = user.city.split("/")[0];
+//     document.getElementById("city-2-userprofile").value = user.city.split("/")[1];        
+// }
 
-function updateUserProfile(){
-    var email = document.getElementById("email-userprofile").textContent
-    var users = JSON.parse(sessionStorage.getItem("users"));
-    users.forEach((user) => {
-        if(email == user.login){
-            var password = document.getElementById("password-userprofile").value 
-            var repeat = document.getElementById("repeat-userprofile").value 
-            if(repeat == password){
-                var city1 = document.getElementById("city-1-userprofile").value 
-                var city2 = document.getElementById("city-2-userprofile").value 
-                user.city = city1 + "/" + city2;
-                user.password = password;
-                console.log(user)
-                sessionStorage.setItem("logged",JSON.stringify({value: true,user: user.name, city: user.city}))
-            }
-        }    
-    })
-    console.log(users[1]);
-    sessionStorage.setItem("users",JSON.stringify(users));
-}
+// function updateUserProfile(){
+//     var email = document.getElementById("email-userprofile").textContent
+//     var users = JSON.parse(sessionStorage.getItem("users"));
+//     users.forEach((user) => {
+//         if(email == user.login){
+//             var password = document.getElementById("password-userprofile").value 
+//             var repeat = document.getElementById("repeat-userprofile").value 
+//             if(repeat == password){
+//                 var city1 = document.getElementById("city-1-userprofile").value 
+//                 var city2 = document.getElementById("city-2-userprofile").value 
+//                 user.city = city1 + "/" + city2;
+//                 user.password = password;
+//                 console.log(user)
+//                 sessionStorage.setItem("logged",JSON.stringify({value: true,user: user.name, city: user.city}))
+//             }
+//         }    
+//     })
+//     console.log(users[1]);
+//     sessionStorage.setItem("users",JSON.stringify(users));
+// }
 
 function redirectIndex(ref){
     var logged = JSON.parse(sessionStorage.getItem("loggedUser"));

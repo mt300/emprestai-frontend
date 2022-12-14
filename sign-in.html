@@ -194,7 +194,7 @@
 			
 		}).catch(function(err){
 			// console.log(err);
-			// console.log("falhou")
+			console.log("falhou")
 			// alert("Failed to login");
 		});
 	}
@@ -213,7 +213,9 @@
 	const storedToken = sessionStorage.getItem("authToken");
 	var axiosConfig = {
 		headers: {
-			Authorization: "Bearer " + storedToken
+			Authorization: "Bearer " + storedToken,
+			AccessControlAllowCredentials: true,
+			AccessControlAllowOrigin: "*"
 		}
 	}
 
