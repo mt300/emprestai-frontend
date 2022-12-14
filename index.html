@@ -100,7 +100,7 @@
 													<img src="http://via.placeholder.com/50x50" alt="">
 													<div class="usy-name">
 														<h3 id="user">Nome do Usuário</h3>
-														<span><img src="images/clock.png" alt="">3 minutos</span>
+														<span id="datetime"><img src="images/clock.png" alt="">Hoje</span>
 													</div>
 												</div>
 												<div class="ed-opts">
@@ -334,7 +334,7 @@
 		// var done = false;
 		axios.get("http://localhost:8080/actives",axiosConfig).then( res => {
 			let data = res.data.posts;
-			console.log(data)
+			// console.log(data)
 			sessionStorage.setItem("posts",JSON.stringify(data));
 			done = true;
 			// location.reload()
@@ -344,13 +344,15 @@
 		// while(done == false){
 			// console.log("k")
 		// }
-		// console.log(done)
+
+		var today = new Date()
+		console.log(today)
 		var database = JSON.parse(sessionStorage.getItem("posts"))
 		var post = document.getElementById("post-bar");
 		var postsSection = document.getElementById("posts-section");
 		// postsSection.removeChild(post);
 		database.sort(function(a,b){ return (b.id - a.id)})
-		database.forEach( data => {
+		database.map( data => {
 			var newPost = document.createElement("div");
 			
 			// copying and creating new posts with data stored
@@ -377,7 +379,22 @@
 			var badge = newPost.querySelector("#tag-badge")
 			badge.textContent = (data.type == "offer")?"ofereço":"procuro";
 			
-			console.log(data.id)
+			var datetime = newPost.querySelector("#datetime")
+			var createdAt = new Date(data.createdAt)
+			// today.setDate("30")
+			if(today.getDate() - createdAt.getDate() == 0){
+				datetime.innerText = "Hoje" ; 
+			}else if(today.getDate() - createdAt.getDate() < 7){
+				console.log("antes set")
+				datetime.innerText = "à " + (today.getDate() - createdAt.getDate()) + " dias"; 	
+				console.log("depois set")
+			}else {
+				datetime.innerText = createdAt.getDate() + "/" + createdAt.toString().split(" ")[1] + "/" + createdAt.getFullYear();
+			}
+
+			
+			console.log(datetime.innerHTML + " ----- " +data.object )
+			
 			newPost.querySelector("#delete-post").addEventListener("click",() => deletePost(data.id));
 			
 			postsSection.appendChild(newPost)
