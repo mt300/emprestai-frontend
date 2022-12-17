@@ -40,40 +40,40 @@
 											<div class="row">
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="text" name="name" placeholder="Nome Completo">
+														<input type="text" id="nameInput" name="name" placeholder="Nome Completo">
 														<i class="la la-user"></i>
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="text" name="e-mail" placeholder="E-mail">
+														<input type="text" id="emailInput" name="e-mail" placeholder="E-mail">
 														<i class="la la-envelope"></i>
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<input type="phone" name="phone" placeholder="Telefone">
+														<input type="phone" id="phoneInput" name="phone" placeholder="Telefone">
 														<i class="la la-phone"></i>
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
 													<div class="inp-field">
-														<select>
-															<option>Selecione o assunto</option>
-															<option>Erro de funcionamento do sistema</option>
-															<option>Conduta abusiva de usuário</option>
-															<option>Desativação de conta</option>
-															<option>Outros</option>
+														<select id="subjectInput">
+															<option value="undefined">Selecione o assunto</option>
+															<option value="Erro de funcionamento do sistema">Erro de funcionamento do sistema</option>
+															<option value="Conduta abusiva de usuário">Conduta abusiva de usuário</option>
+															<option value="Desativação de conta">Desativação de conta</option>
+															<option value="Outros">Outros</option>
 														</select>
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
 													<div class="sn-field">
-														<textarea name="description" placeholder="Escreva aqui o que deseja comunicar."></textarea>
+														<textarea name="description" id="questionInput" placeholder="Escreva aqui o que deseja comunicar."></textarea>
 													</div>
 												</div>
 												<div class="col-lg-12 no-pdd">
-													<button class="active" type="submit" value="post">Enviar</button>
+													<button class="active" type="button" onclick="createChat()" value="post">Enviar</button>
 												</div>
 											</div>
 										</form>
@@ -104,5 +104,30 @@
 <script type="text/javascript" src="js/bootstrap.min.js"></script>
 <script type="text/javascript" src="lib/slick/slick.min.js"></script>
 <script type="text/javascript" src="js/script.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+<script type="text/javascript" src="js/data.js"></script>
 </body>
+<script>
+	function createChat(){
+		var name = document.querySelector("#nameInput").value
+		var email = document.querySelector("#emailInput").value
+		var phone = document.querySelector("#phoneInput").value
+		var question = document.querySelector("#questionInput").value
+		var subject = document.querySelector("#subjectInput").value
+		console.log("oi")
+		data = {
+			userName: name,
+			userEmail: email,
+			userPhone: phone,
+			subject: subject,
+			question: question,
+			userId: 1
+		}
+		axios.post("http://localhost:8080/chat", {data}, axiosConfig).then( res => {
+			console.log(res)
+		}).catch( err => {
+			console.log(err)
+		})
+	}
+</script>
 </html>
