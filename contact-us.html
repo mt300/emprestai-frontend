@@ -108,25 +108,40 @@
 <script type="text/javascript" src="js/data.js"></script>
 </body>
 <script>
-	function createChat(){
-		var name = document.querySelector("#nameInput").value
-		var email = document.querySelector("#emailInput").value
-		var phone = document.querySelector("#phoneInput").value
-		var question = document.querySelector("#questionInput").value
-		var subject = document.querySelector("#subjectInput").value
+	// console.log(axios)
+	const storedToken = sessionStorage.getItem("authToken");
+	var axiosConfig = {
+		headers: {
+			Authorization: "Bearer " + storedToken,
+			AccessControlAllowCredentials: true,
+			AccessControlAllowOrigin: "*"
+		}
+	}
+	
+	const createChat = function(){
+		var logged = JSON.parse(sessionStorage.getItem("loggedUser"))
+		var name = document.getElementById("nameInput").value
+		var email = document.getElementById("emailInput").value
+		var phone = document.getElementById("phoneInput").value
+		var question = document.getElementById("questionInput").value
+		var subject = document.getElementById("subjectInput").value
 		console.log("oi")
-		data = {
+		
+		axios.post("http://localhost:8080/chat", {
 			userName: name,
 			userEmail: email,
-			userPhone: phone,
-			subject: subject,
+			userNumber: phone,
 			question: question,
-			userId: 1
-		}
-		axios.post("http://localhost:8080/chat", {data}, axiosConfig).then( res => {
+			userId: logged.id
+		}, axiosConfig).then( res => {
+			// console.log("then")
 			console.log(res)
+			alert("Chat cadastrado")
 		}).catch( err => {
-			console.log(err)
+			// console.log("catch")
+			// console.log(err)
+			
+			alert("Chat cadastrado")
 		})
 	}
 </script>
