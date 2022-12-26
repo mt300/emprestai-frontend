@@ -194,8 +194,8 @@
 			
 		}).catch(function(err){
 			// console.log(err);
-			console.log("falhou")
-			// alert("Failed to login");
+			// console.log("falhou")
+			alert("Usuário não encontrado ou a senha esta incorreta");
 		});
 	}
 	const recovery = function() {
@@ -234,9 +234,10 @@
 			city:municipio + "/" + estado
 		}).then( res => {
 			console.log(res)
-			console.log("certo")
+			// console.log("certo")
+			location.reload()
 		}).catch(err => {
-			console.log('erro')
+			// console.log('erro')
 			console.log(err)
 		});
 	

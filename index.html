@@ -86,6 +86,9 @@
 							<div class="col-lg-9 col-md-8 no-pd">
 								<div class="main-ws-sec">
 									<div class="post-topbar">
+										<div style="display:flex; align-items:flex-start; justify-content: start; font-size: 1.5em;">
+											<h3 class="align-baseline">Seus Posts</h3>
+										</div>
 										<div class="post-st">
 											<ul>
 												<li><a class="post_project" href="#" title="">Cadastrar oferta</a></li>
@@ -310,6 +313,18 @@
 			})
 			.catch( err => console.log("estou muito triste" + err));
 	}
+
+	function resetPost(id){
+		axios.put("http://localhost:8080/post/" + id, {active:true},axiosConfig)
+			.then( res => {
+				console.log("ok")
+				fetchData();
+				// redirectIndex("index.html");	
+				location.reload();
+			})
+			.catch( err => console.log("estou muito triste" + err));
+	}
+
 	function search(){
 		var search = document.getElementById("searchField").value;
 		var postsVisibles = document.getElementsByClassName("post-bar");
@@ -332,25 +347,24 @@
 	}
 	function fetchData(){
 		// var done = false;
-		axios.get("http://localhost:8080/actives",axiosConfig).then( res => {
+		var logged = JSON.parse(sessionStorage.getItem("loggedUser"))
+		axios.get("http://localhost:8080/posts",axiosConfig).then( res => {
 			let data = res.data.posts;
-			// console.log(data)
-			sessionStorage.setItem("posts",JSON.stringify(data));
-			done = true;
-			// location.reload()
+			let actives = data.filter(g => g.active == true);
+			let loggedPosts = data.filter( g => g.userId == logged.id)
+			sessionStorage.setItem("loggedPosts",JSON.stringify(loggedPosts));
+		
+			sessionStorage.setItem("posts",JSON.stringify(actives));
 		}).catch(err => {
 				console.log(err);
 			});
-		// while(done == false){
-			// console.log("k")
-		// }
-
+		
 		var today = new Date()
-		console.log(today)
-		var database = JSON.parse(sessionStorage.getItem("posts"))
+		console.log(logged)
+		var database = JSON.parse(sessionStorage.getItem("loggedPosts"))
+		// var database = data.filter(g => g.userId == logged.id);
 		var post = document.getElementById("post-bar");
 		var postsSection = document.getElementById("posts-section");
-		// postsSection.removeChild(post);
 		database.sort(function(a,b){ return (b.id - a.id)})
 		database.map( data => {
 			var newPost = document.createElement("div");
@@ -359,7 +373,17 @@
 			// newPost.id = data.id
 			newPost.innerHTML = post.innerHTML;
 			newPost.classList.add("post-bar");
-			
+			if( data.active == false){
+				newPost.querySelector("#delete-post").addEventListener("click",() => resetPost(data.id));
+				newPost.querySelector("#delete-post").textContent = "Restaurar"
+				// console.log("red")
+				newPost.classList.add("post-unactive")
+			}else{
+				newPost.querySelector("#delete-post").addEventListener("click",() => deletePost(data.id));
+				newPost.querySelector("#delete-post").textContent = "Excluir"
+				// console.log("white")
+				newPost.classList.remove("post-unactive")
+			}
 			var user = newPost.querySelector("#user") 
 			user.childNodes[0].data = data.userName;
 			
@@ -393,9 +417,8 @@
 			}
 
 			
-			console.log(datetime.innerHTML + " ----- " +data.object )
+			// console.log(datetime.innerHTML + " ----- " +data.object )
 			
-			newPost.querySelector("#delete-post").addEventListener("click",() => deletePost(data.id));
 			
 			postsSection.appendChild(newPost)
 		})

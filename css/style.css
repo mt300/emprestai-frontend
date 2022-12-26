@@ -986,10 +986,15 @@ main {
 .user-picy {
 	float: left;
 	width: 50px;
+	
 }
 .user-picy img {
 	width: 100%;
 	object-fit: cover;
+}
+.post-unactive {
+	/* background-color: red; */
+	border: 5px solid red;
 }
 .post-st {
 	float: right;
