@@ -103,8 +103,9 @@
 													<img src="http://via.placeholder.com/50x50" alt="">
 													<div class="usy-name">
 														<h3 id="user">Nome do Usuário</h3>
-														<span id="datetime"><img src="images/clock.png" alt="">Hoje</span>
+														<span id="datetime" class="posted-time"><img src="images/clock.png" alt="">Hoje</span>
 													</div>
+													
 												</div>
 												<div class="ed-opts">
 													<a href="#" title="" class="ed-opts-open"><i class="la la-ellipsis-v"></i></a>
@@ -360,7 +361,7 @@
 			});
 		
 		var today = new Date()
-		console.log(logged)
+		// console.log(logged)
 		var database = JSON.parse(sessionStorage.getItem("loggedPosts"))
 		// var database = data.filter(g => g.userId == logged.id);
 		var post = document.getElementById("post-bar");
@@ -403,18 +404,21 @@
 			var badge = newPost.querySelector("#tag-badge")
 			badge.textContent = (data.type == "offer")?"ofereço":"procuro";
 			
-			var datetime = newPost.querySelector("#datetime")
-			var createdAt = new Date(data.createdAt)
-			// today.setDate("30")
-			if(today.getDate() - createdAt.getDate() == 0){
-				datetime.innerText = "Hoje" ; 
-			}else if(today.getDate() - createdAt.getDate() < 7){
-				console.log("antes set")
-				datetime.innerText = "à " + (today.getDate() - createdAt.getDate()) + " dias"; 	
-				console.log("depois set")
-			}else {
-				datetime.innerText = createdAt.getDate() + "/" + createdAt.toString().split(" ")[1] + "/" + createdAt.getFullYear();
-			}
+			
+			var postTime = newPost.querySelector('.posted-time');
+			postTime.childNodes[1].data = new Date(data.createdAt).toDateString()
+			// var datetime = newPost.querySelector("#datetime")
+			// var createdAt = new Date(data.createdAt)
+			// // today.setDate("30")
+			// if(today.getDate() - createdAt.getDate() == 0){
+			// 	datetime.innerText = "Hoje" ; 
+			// }else if(today.getDate() - createdAt.getDate() < 7){
+			// 	// console.log("antes set")
+			// 	datetime.innerText = "à " + (today.getDate() - createdAt.getDate()) + " dias"; 	
+			// 	// console.log("depois set")
+			// }else {
+			// 	datetime.innerText = createdAt.getDate() + "/" + createdAt.toString().split(" ")[1] + "/" + createdAt.getFullYear();
+			// }
 
 			
 			// console.log(datetime.innerHTML + " ----- " +data.object )

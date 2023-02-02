@@ -212,7 +212,7 @@
 		
 	    console.log(data)
 		axios.put("http://localhost:8080/user/" + logged.email,{city:data.city, password: data.password}, axiosConfig).then( res => {
-			console.log(res);
+			// console.log(res);
 			sessionStorage.setItem("loggedUser", JSON.stringify({...logged,city:(data.city!=undefined)?data.city:logged.city}))
 			console.log(JSON.parse(sessionStorage.getItem("loggedUser")))
 		}).catch( err => {

@@ -189,6 +189,10 @@
 			var desc = newPost.querySelector("#desc-request")
 			desc.childNodes[1].data = data.description;
 
+			// console.log(data)
+			var postTime = newPost.querySelector('.quest-posted-time');
+			postTime.childNodes[1].data = new Date(data.createdAt).toDateString() 
+
 			// newPost.querySelector("#delete-post-").addEventListener("click",() => deletePost(data.id));
 			
 			// console.log(deleteBtn)
